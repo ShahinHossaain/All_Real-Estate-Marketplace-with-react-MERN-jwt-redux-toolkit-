@@ -16,5 +16,11 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+
+    // for import React from 'react';
+
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/prop-types": "off"
   },
 }
