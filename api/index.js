@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import sayRouter from './routes/user.route.js'
 dotenv.config();
 
 
@@ -24,3 +25,13 @@ const port = 3000
 app.listen(port, () => {
     console.log(`app listening on port ${port}`)
 })
+
+app.get('/', (req, res) => {
+    res.send('Hello World!!!broo')
+})
+
+app.get('/lullu', (req, res) => {
+    res.send('sweet')
+})
+
+app.use('/', sayRouter)
