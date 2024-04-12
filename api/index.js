@@ -2,9 +2,11 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import sayRouter from './routes/user.route.js'
+import authRouter from './routes/auth.route.js'
 dotenv.config();
 
 
+console.log(process.env.MONGO)
 
 mongoose.connect(process.env.MONGO)
     .then(() => {
@@ -15,7 +17,11 @@ mongoose.connect(process.env.MONGO)
     })
 
 // const express = require('express')
+
 const app = express()
+
+app.use(express.json())
+
 const port = 3000
 
 // app.get('/', (req, res) => {
@@ -35,3 +41,4 @@ app.get('/lullu', (req, res) => {
 })
 
 app.use('/', sayRouter)
+app.use('/api/auth', authRouter)
