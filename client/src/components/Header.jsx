@@ -2,11 +2,12 @@ import React from 'react';
 import { ImSearch } from "react-icons/im";
 import ActiveLink from '../../shared/ActiveLink';
 import { Link } from 'react-router-dom';
-
+import { useSelector } from 'react-redux'
 
 const Header = () => {
 
-
+    const { currentUser } = useSelector(state => state.user)
+    console.log('sata', currentUser)
 
     return (
         <header className='bg-slate-200 shadow-md'>
@@ -41,7 +42,10 @@ const Header = () => {
                     </ActiveLink> */}
                     <li className='hidden sm:list-item'><ActiveLink to='/' >Home</ActiveLink></li>
                     <li className='hidden sm:list-item'><ActiveLink to='/about' >About</ActiveLink></li>
-                    <li> <ActiveLink to='/sign-in'>Sign In</ActiveLink></li>
+                    {
+                        currentUser ? <ActiveLink to='/profile'><img className='rounded-full h-7 w-7 object-cover' src={currentUser.avatar}></img></ActiveLink> : <li> <ActiveLink to='/sign-in'>Sign In</ActiveLink></li>
+                    }
+
                 </ul>
             </div>
 
