@@ -15,7 +15,6 @@ mongoose.connect(process.env.MONGO)
         console.log(err)
     })
 
-// const express = require('express')
 
 const app = express()
 
@@ -35,8 +34,12 @@ app.listen(port, () => {
 app.get('/', (req, res) => {
     res.send('Hello World!!!bro')
 })
+const a = (req, res, next) => {
+    console.log("lare lappla");
+    next();
+}
 
-app.get('/lullu', (req, res) => {
+app.get('/lullu', a, (req, res) => {
     res.send('sweet')
 })
 

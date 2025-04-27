@@ -1,5 +1,5 @@
-import User from "../models/user.model"
-import { errorHandler } from "../utilitis/error"
+import User from "../models/user.model.js"
+import { errorHandler } from "../utilitis/error.js"
 import bcryptjs from "bcryptjs"
 export const say = (req, res) => {
     res.send(req.cookies.access_token)
