@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
+import { updateUserStart, updateUserFailure, updateUserSuccess } from '../redux/user/userSlice';
+
 
 const Profile = () => {
     const fileRef = useRef(null)
@@ -10,6 +12,7 @@ const Profile = () => {
     const [filePerc, setFilePerc] = useState(0);
     const [fileUploadError, setFileUploadError] = useState(false);
     const [formData, setFormData] = useState({});
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (file) {
@@ -22,11 +25,12 @@ const Profile = () => {
         const fileName = new Date().getTime() + file.name;
         const storageRef = ref(storage, fileName)
         const uploadTask = uploadBytesResumable(storageRef, file)
-        uploadTask.on('state_changed', (snapshot) => {
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            setFilePerc(progress.toFixed(2))
-            setFileUploadError(false);
-        },
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setFilePerc(progress.toFixed(2))
+                setFileUploadError(false);
+            },
             (error) => {
                 setFileUploadError(true)
                 console.log(error)
@@ -41,10 +45,37 @@ const Profile = () => {
         )
     }
 
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.id]: e.target.value });
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            dispatch(updateUserStart());
+            const res = await fetch(`/api/user/update/${currentUser._id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            const data = await res.json();
+            if (data.success === false) {
+                dispatch(updateUserFailure(data.message));
+                return;
+            }
+            dispatch(updateUserSuccess(data));
+        } catch (error) {
+            dispatch(updateUserFailure(error.message))
+        }
+    }
+
     return (
         <div className=" p-3">
             <h1 className="text-3xl font-semibold  my-7 text-center">Profile</h1>
-            <form className='flex flex-col gap-4 sm:max-w-lg mx-auto'>
+            <form onSubmit={handleSubmit} className='flex flex-col gap-4 sm:max-w-lg mx-auto'>
                 <input
                     onChange={e => setFile(e.target.files[0])}
                     type="file"
@@ -66,9 +97,9 @@ const Profile = () => {
                     }
 
                 </div>
-                <input type="text" placeholder='username' className='border p-3 rounded-lg' id='username' />
-                <input type="text" placeholder='email' className='border p-3 rounded-lg' id='email' />
-                <input type="text" placeholder='password' className='border p-3 rounded-lg' id='password' />
+                <input type="text" placeholder='username' className='border p-3 rounded-lg' id='username' defaultValue={currentUser.username} onChange={handleChange} />
+                <input type="text" placeholder='email' className='border p-3 rounded-lg' id='email' defaultValue={currentUser.email} onChange={handleChange} />
+                <input type="text" placeholder='password' className='border p-3 rounded-lg' id='password' onChange={handleChange} />
                 <button className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>update</button>
                 <button className='bg-green-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>create Listing</button>
             </form>

@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import sayRouter from './routes/user.route.js'
+import userRouter from './routes/user.route.js'
 import authRouter from './routes/auth.route.js'
 import cookieParser from 'cookie-parser';
 dotenv.config();
@@ -23,27 +23,12 @@ app.use(cookieParser());
 
 const port = 3000
 
-// app.get('/', (req, res) => {
-//     res.send('Hello World!!!bro bro bro')
-// })
 
 app.listen(port, () => {
     console.log(`app listening on port ${port}`)
 })
 
-app.get('/', (req, res) => {
-    res.send('Hello World!!!bro')
-})
-const a = (req, res, next) => {
-    console.log("lare lappla");
-    next();
-}
-
-app.get('/lullu', a, (req, res) => {
-    res.send('sweet')
-})
-
-app.use('/', sayRouter)
+app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
 
 app.use((err, req, res, next) => {

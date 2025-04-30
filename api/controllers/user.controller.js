@@ -1,9 +1,7 @@
 import User from "../models/user.model.js"
 import { errorHandler } from "../utilitis/error.js"
 import bcryptjs from "bcryptjs"
-export const say = (req, res) => {
-    res.send(req.cookies.access_token)
-}
+
 
 export const updateUser = async (req, res, next) => {
     if (req.user.id !== req.params.id) {
