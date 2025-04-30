@@ -3,15 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
 import { updateUserStart, updateUserFailure, updateUserSuccess } from '../redux/user/userSlice';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { toast, ToastContainer } from 'react-toastify';
 
 
 const Profile = () => {
     const fileRef = useRef(null)
-    const { currentUser } = useSelector(state => state.user)
+    const { currentUser, loading, error } = useSelector(state => state.user)
     const [file, setFile] = useState(undefined);
     const [filePerc, setFilePerc] = useState(0);
     const [fileUploadError, setFileUploadError] = useState(false);
     const [formData, setFormData] = useState({});
+    const [isText, setIsText] = useState(false);
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -67,13 +71,26 @@ const Profile = () => {
                 return;
             }
             dispatch(updateUserSuccess(data));
+            toast.success('Successfully updated!');
         } catch (error) {
             dispatch(updateUserFailure(error.message))
         }
     }
 
     return (
-        <div className=" p-3">
+        <div className="p-3">
+            <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <h1 className="text-3xl font-semibold  my-7 text-center">Profile</h1>
             <form onSubmit={handleSubmit} className='flex flex-col gap-4 sm:max-w-lg mx-auto'>
                 <input
@@ -99,15 +116,38 @@ const Profile = () => {
                 </div>
                 <input type="text" placeholder='username' className='border p-3 rounded-lg' id='username' defaultValue={currentUser.username} onChange={handleChange} />
                 <input type="text" placeholder='email' className='border p-3 rounded-lg' id='email' defaultValue={currentUser.email} onChange={handleChange} />
-                <input type="text" placeholder='password' className='border p-3 rounded-lg' id='password' onChange={handleChange} />
-                <button className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>update</button>
+                <div className="relative flex items-center">
+                    <input
+                        type={isText ? "text" : "password"}
+                        placeholder="Password"
+                        className="border p-3 rounded-lg w-full"
+                        id="password"
+                        onChange={handleChange}
+                    />
+                    {!isText ? <FaEye
+                        onClick={() => setIsText(!isText)}
+                        className="absolute right-3 cursor-pointer"
+                        size={20}
+                        color="gray"
+                    />
+                        :
+                        <FaEyeSlash
+                            onClick={() => setIsText(!isText)}
+                            className="absolute right-3 cursor-pointer"
+                            size={20}
+                            color="gray"
+                        />}
+                </div>
+
+                <button disabled={loading} className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>{loading ? "loading ..." : "update"}</button>
                 <button className='bg-green-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>create Listing</button>
+                {error ? <p className='text-red-700 '>{error}</p> : ''}
+
             </form>
             <div className='flex justify-between text-red-600 mt-5 sm:max-w-lg mx-auto'>
                 <p className='cursor-pointer'>Delete Account</p>
                 <p className='cursor-pointer'>Sign out</p>
             </div>
-
         </div >
 
     );
