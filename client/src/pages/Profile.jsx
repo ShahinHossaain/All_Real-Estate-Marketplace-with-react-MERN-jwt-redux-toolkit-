@@ -16,6 +16,7 @@ const Profile = () => {
     const [fileUploadError, setFileUploadError] = useState(false);
     const [formData, setFormData] = useState({});
     const [isText, setIsText] = useState(false);
+    console.log("currentUser", currentUser)
 
     const dispatch = useDispatch()
 
