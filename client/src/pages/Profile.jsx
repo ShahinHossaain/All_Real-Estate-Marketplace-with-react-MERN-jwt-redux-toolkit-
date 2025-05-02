@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
-import { updateUserStart, updateUserFailure, updateUserSuccess, deleteUserStart, deleteUserFailure, deleteUserSuccess } from '../redux/user/userSlice';
+import { updateUserStart, updateUserFailure, updateUserSuccess, deleteUserStart, deleteUserFailure, deleteUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess } from '../redux/user/userSlice';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast, ToastContainer } from 'react-toastify';
 
@@ -94,6 +94,22 @@ const Profile = () => {
         }
     };
 
+    const handleSighOut = async () => {
+        try {
+            dispatch(signOutUserStart())
+            const res = await fetch('/api/user/signout');
+            const data = await res.json();
+            if (data.success === false) {
+                dispatch(signOutUserFailure(data.message));
+                return;
+            }
+            dispatch(signOutUserSuccess(data));
+
+        } catch (error) {
+            dispatch(signOutUserFailure(error.message))
+        }
+    }
+
     return (
         <div className="p-3">
             <ToastContainer
@@ -163,7 +179,7 @@ const Profile = () => {
             </form>
             <div className='flex justify-between text-red-600 mt-5 sm:max-w-lg mx-auto'>
                 <p onClick={handleDeleteUser} className='cursor-pointer'>Delete Account</p>
-                <p className='cursor-pointer'>Sign out</p>
+                <p onClick={handleSighOut} className='cursor-pointer'>Sign out</p>
             </div>
         </div >
 
