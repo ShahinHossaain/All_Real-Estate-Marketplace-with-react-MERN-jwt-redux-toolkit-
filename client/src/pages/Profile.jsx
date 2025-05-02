@@ -5,6 +5,7 @@ import { app } from '../firebase';
 import { updateUserStart, updateUserFailure, updateUserSuccess, deleteUserStart, deleteUserFailure, deleteUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess } from '../redux/user/userSlice';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast, ToastContainer } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 
 const Profile = () => {
@@ -173,7 +174,7 @@ const Profile = () => {
                 </div>
 
                 <button disabled={loading} className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>{loading ? "loading ..." : "update"}</button>
-                <button className='bg-green-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>create Listing</button>
+                <Link to="/create-listing" className='bg-green-700 text-whit text-center text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>create Listing</Link>
                 {error ? <p className='text-red-700 '>{error}</p> : ''}
 
             </form>
