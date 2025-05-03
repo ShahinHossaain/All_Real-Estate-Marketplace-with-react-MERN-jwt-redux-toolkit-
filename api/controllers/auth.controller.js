@@ -24,7 +24,6 @@ export const signin = async (req, res, next) => {
 
         const validPassword = bcrypt.compareSync(password, validUser.password)
         if (!validPassword) return next(errorHandler(401, 'Invalid password'));
-        console.log('validUser', validUser)
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
         const { password: pass, ...rest } = validUser._doc;
         res.clearCookie('access_token');

@@ -226,7 +226,7 @@ const Profile = () => {
             <button onClick={handleShowListings} className='text-green-700 w-full'>
                 Show Listings
             </button>
-            <p className='text-red-700 mt-5'>
+            <p className='text-red-700 mt-5 text-center'>
                 {showListingsError ? 'Error showing listings' : ''}
             </p>
             {userListings && userListings.length > 0 && (
