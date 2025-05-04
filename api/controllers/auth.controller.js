@@ -28,7 +28,7 @@ export const signin = async (req, res, next) => {
         const { password: pass, ...rest } = validUser._doc;
         res.clearCookie('access_token');
         res
-            .cookie('access_token', token, { httpOnly: true })
+            .cookie('access_token', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
             .status(200)
             .json(rest);
     } catch (err) {
