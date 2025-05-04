@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@reduxjs/toolkit": "^2.2.3",
     "clsx": "^2.0.0",
     "firebase": "^10.12.2",
@@ -34,6 +35,6 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6",
-    "vite": "^5.0.8"
+    "vite": "^6.3.4"
   }
 }
