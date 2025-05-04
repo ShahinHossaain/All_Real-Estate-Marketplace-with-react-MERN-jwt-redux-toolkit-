@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ImSearch } from "react-icons/im";
 import ActiveLink from '../../shared/ActiveLink';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 
 const Header = () => {
-
     const { currentUser } = useSelector(state => state.user)
+    const [searchTerm, setSearchTerm] = useState('')
+    const navigate = useNavigate()
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('searchTerm', searchTerm);
+        const searchQuery = urlParams.toString()
+        navigate(`/search?${searchQuery}`)
+        console.log(urlParams.toString())
+    }
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(location.search);
+        const searchTermFromUrl = urlParams.get('searchTerm');
+        if (searchTermFromUrl) {
+            setSearchTerm(searchTermFromUrl);
+        }
+    }, []);
 
     return (
         <header className='bg-slate-200 shadow-md'>
@@ -19,13 +36,17 @@ const Header = () => {
                     </h1>
                 </Link>
 
-                <form className='flex items-center bg-slate-100 rounded-lg p-2 sm:p-3'>
+                <form onSubmit={handleSubmit} className='flex items-center bg-slate-100 rounded-lg p-2 sm:p-3'>
                     <input
                         type="text"
                         placeholder='Search...'
                         className='bg-transparent focus:outline-none w-28 sm:w-64'
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    <ImSearch className='text-slate-600' />
+                    <button>
+                        <ImSearch className='text-slate-600' />
+                    </button>
                 </form>
 
                 <ul className='flex gap-5'>
