@@ -36,10 +36,8 @@ app.listen(port, () => {
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/listings', listingRouter)
-app.use(cors({
-    origin: 'http://localhost:5173/',
-    credentials: true,
-}));
+app.use(cors(process.env.CLIENT_URL));
+
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
