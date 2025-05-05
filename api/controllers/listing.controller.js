@@ -99,6 +99,7 @@ export const getListings = async (req, res, next) => {
         const searchTerm = req.query.searchTerm || '';
 
         const sort = req.query.sort || 'createdAt';
+        console.log('sort', sort)
 
         const order = req.query.order || 'desc';
 
@@ -109,7 +110,7 @@ export const getListings = async (req, res, next) => {
             parking,
             type,
         })
-            .sort({ [sort]: order })
+            .sort({ [sort]: order === 'desc' ? -1 : 1 })
             .limit(limit)
             .skip(startIndex);
 
