@@ -37,8 +37,8 @@ app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/listings', listingRouter)
 app.use(cors({
-    origin: 'http://localhost:3000', // ফ্রন্টএন্ডের URL
-    credentials: true,              // যদি কুকি বা অথেন্টিকেশন দরকার হয়
+    origin: 'http://localhost:5173/',
+    credentials: true,
 }));
 
 app.use((err, req, res, next) => {
