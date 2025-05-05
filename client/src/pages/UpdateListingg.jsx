@@ -36,7 +36,7 @@ export default function UpdateListingg() {
     useEffect(() => {
         const fetchListing = async () => {
             const listingId = params.listingId;
-            const res = await fetch(`/api/listings/get/${listingId}`);
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listings/get/${listingId}`);
             const data = await res.json();
             if (data.success === false) {
                 console.log(data.message);
@@ -149,7 +149,7 @@ export default function UpdateListingg() {
                 return setError('Discount price must be lower than regular price');
             setLoading(true);
             setError(false);
-            const res = await fetch(`/api/listings/update/${params.listingId}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listings/update/${params.listingId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

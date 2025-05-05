@@ -4,6 +4,9 @@ import dotenv from 'dotenv';
 import userRouter from './routes/user.route.js'
 import authRouter from './routes/auth.route.js'
 import listingRouter from './routes/listing.route.js';
+import cors from 'cors';
+
+
 
 import cookieParser from 'cookie-parser';
 dotenv.config();
@@ -33,6 +36,10 @@ app.listen(port, () => {
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/listings', listingRouter)
+app.use(cors({
+    origin: 'http://localhost:3000', // ফ্রন্টএন্ডের URL
+    credentials: true,              // যদি কুকি বা অথেন্টিকেশন দরকার হয়
+}));
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

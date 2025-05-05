@@ -99,7 +99,6 @@ export const getListings = async (req, res, next) => {
         const searchTerm = req.query.searchTerm || '';
 
         const sort = req.query.sort || 'createdAt';
-        console.log('sort', sort)
 
         const order = req.query.order || 'desc';
 

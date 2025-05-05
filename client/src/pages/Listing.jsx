@@ -31,7 +31,7 @@ export default function Listing() {
         const fetchListing = async () => {
             try {
                 setLoading(true);
-                const res = await fetch(`/api/listings/get/${params.listingId}`);
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listings/get/${params.listingId}`);
                 const data = await res.json();
                 if (data.success === false) {
                     setError(true);
@@ -93,7 +93,7 @@ export default function Listing() {
                             {listing.offer
                                 ? listing.discountPrice.toLocaleString('en-US')
                                 : listing.regularPrice.toLocaleString('en-US')}
-                            {listing.type === 'rent' && ' / month'}
+                            {listing.type === 'rent' && '/month'}
                         </p>
                         <p className='flex items-center mt-6 gap-2 text-slate-600  text-sm'>
                             <FaMapMarkerAlt className='text-green-700' />
