@@ -3,7 +3,7 @@ import { MdLocationOn } from 'react-icons/md';
 
 export default function ListingItem({ listing }) {
     return (
-        <div className='bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px]'>
+        <div className='bg-white max-w-md mx-auto border border-gray-300 rounded-md overflow-hidden shadow-md hover:shadow-xl transition duration-300 ease-in-out'>
             <Link to={`/listing/${listing._id}`}>
                 <img
                     src={
@@ -26,16 +26,24 @@ export default function ListingItem({ listing }) {
                     <p className='text-sm text-gray-600 line-clamp-2'>
                         {listing.description}
                     </p>
-                    <p className='text-slate-500 mt-2 font-semibold '>
+                    <div className='flex gap-2 text-slate-500 mt-2 font-semibold '>
 
                         {listing.offer
-                            ? <div className='flex gap-2'>
-                                <span className='line-through text-red-500'>${listing.regularPrice.toLocaleString('en-US')} </span>
-                                <span>${listing.discountPrice.toLocaleString('en-US')} </span>
+                            ? <div className="flex gap-4 items-center">
+                                <span className="line-through text-red-500 text-sm">
+                                    ৳{listing.regularPrice.toLocaleString('en-US')}
+                                </span>
+                                <span className="text-green-600 font-semibold text-base">
+                                    Offer Price: ৳{listing.discountPrice.toLocaleString('en-US')}
+                                </span>
                             </div>
+
                             : <div>${listing.regularPrice.toLocaleString('en-US')}</div>}
-                        {listing.type === 'rent' && ' / month'}
-                    </p>
+                        <div>
+                            {listing.type === 'rent' && '/ month'}
+                        </div>
+
+                    </div>
                     <div className='text-slate-700 flex gap-4'>
                         <div className='font-bold text-xs'>
                             {listing.bedrooms > 1

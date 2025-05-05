@@ -230,11 +230,11 @@ export default function Search() {
                     </button>
                 </form>
             </div>
-            <div className='flex-1'>
+            <div className='flex-1 max-w-6xl mx-auto'>
                 <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 mt-5'>
                     Listing results:
                 </h1>
-                <div className='p-7 flex flex-wrap gap-4'>
+                <div className='grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-10  '>
                     {!loading && listings.length === 0 && (
                         <p className='text-xl text-slate-700'>No listing found!</p>
                     )}
