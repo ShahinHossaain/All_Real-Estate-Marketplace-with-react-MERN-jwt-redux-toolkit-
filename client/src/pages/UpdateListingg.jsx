@@ -36,7 +36,7 @@ export default function UpdateListingg() {
     useEffect(() => {
         const fetchListing = async () => {
             const listingId = params.listingId;
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listings/get/${listingId}`);
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listings/get/${listingId}`, { credentials: 'include' });
             const data = await res.json();
             if (data.success === false) {
                 console.log(data.message);
@@ -151,6 +151,7 @@ export default function UpdateListingg() {
             setError(false);
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listings/update/${params.listingId}`, {
                 method: 'PATCH',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 },

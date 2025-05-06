@@ -21,6 +21,7 @@ const SignOut = () => {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signup`,
             {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'content-type': 'application/json',
                 },

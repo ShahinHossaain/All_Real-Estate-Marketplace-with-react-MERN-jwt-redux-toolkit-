@@ -63,6 +63,7 @@ const Profile = () => {
             dispatch(updateUserStart());
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/update/${currentUser._id}`, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -85,6 +86,7 @@ const Profile = () => {
             dispatch(deleteUserStart());
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/delete/${currentUser._id}`, {
                 method: 'DELETE',
+                credentials: 'include'
             });
             const data = await res.json();
             if (data.success === false) {
@@ -100,7 +102,7 @@ const Profile = () => {
     const handleSighOut = async () => {
         try {
             dispatch(signOutUserStart())
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/signout`);
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/signout`, { credentials: 'include' });
             const data = await res.json();
             if (data.success === false) {
                 dispatch(signOutUserFailure(data.message));
@@ -115,7 +117,7 @@ const Profile = () => {
     const handleShowListings = async () => {
         try {
             setShowListingsError(false);
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/listings/${currentUser._id}`);
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/listings/${currentUser._id}`, { credentials: 'include' });
             const data = await res.json();
             if (data.success === false) {
                 setShowListingsError(true);
@@ -132,6 +134,7 @@ const Profile = () => {
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listings/delete/${listingId}`, {
                 method: 'DELETE',
+                credentials: 'include'
             });
             const data = await res.json();
             if (data.success === false) {
